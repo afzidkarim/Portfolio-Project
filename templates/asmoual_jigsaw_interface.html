@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASMOUAL JIGSAW</title>
+    <link rel="stylesheet" href="../static/styles/asmoual_jigsaw_styles.css">
+    <script type="module" src="../static/scripts/jigsawGameController.js" defer></script>
+    <script type="module" src="../static/scripts/detectMobileOrientation.js" defer></script>
+    <link rel="icon" href="../static/game_assets/teaser_images/hero_images/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@0.8.0/dist/js-confetti.browser.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+<body>
+
+    <!-- Puzzle Screen Container -->
+    <div class="scr_puzzl">
+        <div id="imageContainer"></div>
+        <div id="puzzle" class="puzzle-container"></div>
+    </div>
+
+    <!-- Hamburger Icon -->
+    <div class="fixed top-0 hamburger right-4 md:left-[95%] items-start z-[9999]">
+        <input class="hidden" id="label-check" type="checkbox" checked>
+        <label for="label-check" class="block cursor-pointer relative w-8 h-8 md:w-10 md:h-10 mr-5">
+            <div class="line1 absolute bg-[#BE63F9] w-11 h-[5px] transition duration-300 mt-[10px]"></div>
+            <div class="line2 absolute bg-[#BE63F9] w-11 h-[5px] transition duration-300 mt-[22px]"></div>
+            <div class="line3 absolute bg-[#BE63F9] w-11 h-[5px] transition duration-300 mt-[34px]"></div>
+        </label>
+    </div>
+
+    <!-- Menu Container -->
+    <div
+        class="menu fixed top-0 right-0 bg-[#F5E6FE] w-11/12 md:w-96 h-screen z-50 flex-col overflow-y-auto transition-1000 ease-in-out duration-300">
+        <div class="bg-[#F5E6FE] sticky top-0 w-full h-[58px] md:h-[70px] z-[999]"></div>
+
+        <div id="customBgContainer"
+            class="custom-bg bg-[#120018] w-11/12 md:w-80 h-64 md:h-72 flex justify-center items-center mt-15 m-auto rounded-xl relative">
+            <img id="originalImage" class="absolute object-contain rounded-xl max-w-full max-h-full">
+            <div class="flex flex-col items-center relative z-10">
+                <!-- Image Input -->
+                <input type="file" id="image" accept="image/jpeg, image/png, image/jpg, image/webp"
+                    class="opacity-0 absolute z-[-1]" />
+                <label for="image" class="cursor-pointer">
+                    <img src="../static/game_assets/game_images/ChooseImage.svg"
+                        class="w-28 md:w-32 h-28 md:h-32 mb-1 mt-4 md:mt-5" />
+                </label>
+                <span id="orText" class="text-white font-bold text-xs md:text-sm">or</span>
+                <!-- Image URL Input -->
+                <input type="text" id="imageUrlInput" placeholder="Paste image link"
+                    class="mt-1 text-center rounded-xl w-36 md:w-40 py-1 text-xs md:text-sm font-bold font-serif outline-none /*pointer-events-none*/" />
+            </div>
+        </div>
+
+        <!-- Level Selection -->
+        <div class="level-selection mt-9">
+            <h2 class="col-start-2 col-end-4 text-center text-2xl" style="font-family: Moul, serif;">DIFFICULTY LEVELS
+            </h2>
+            <fieldset class="grid gap-3 grid-cols-3 grid-rows-3 p-8 px-10">
+                <!-- Level Radio Buttons -->
+                <input name="switch" id="level1" type="radio" checked class="pres hidden">
+                <label for="level1" class="level-label" data-cols="3" data-width="300">Level 1</label>
+
+                <input name="switch" id="level2" type="radio" class="pres hidden">
+                <label for="level2" class="level-label" data-cols="4" data-width="400">Level 2</label>
+
+                <input name="switch" id="level3" type="radio" class="pres hidden">
+                <label for="level3" class="level-label" data-cols="5" data-width="500">Level 3</label>
+
+                <input name="switch" id="level4" type="radio" class="pres hidden">
+                <label for="level4" class="level-label" data-cols="6" data-width="600">Level 4</label>
+
+                <input name="switch" id="level5" type="radio" class="pres hidden">
+                <label for="level5" class="level-label" data-cols="7" data-width="700">Level 5</label>
+
+                <input name="switch" id="level6" type="radio" class="pres hidden">
+                <label for="level6" class="level-label" data-cols="8" data-width="800">Level 6</label>
+
+                <input name="switch" id="level7" type="radio" class="pres hidden">
+                <label for="level7" class="level-label" data-cols="9" data-width="900">Level 7</label>
+
+                <input name="switch" id="level8" type="radio" class="pres hidden">
+                <label for="level8" class="level-label" data-cols="10" data-width="1000">Level 8</label>
+
+                <input name="switch" id="level9" type="radio" class="pres hidden">
+                <label for="level9" class="level-label" data-cols="11" data-width="1100">Level 9</label>
+            </fieldset>
+        </div>
+
+        <!-- Shuffle Button -->
+        <div class="flex justify-center items-center -mt-3">
+            <button id="shuffle"
+                class="bg-[#6E00FF] text-white rounded-full py-1 px-10 text-sm font-bold font-serif hover:ring-4 hover:ring-[#5706c06d]">
+                Shuffle
+            </button>
+        </div>
+
+        <!-- timer -->
+        <div class="flex justify-center p-5">
+            <div class="bg-[#120018] w-72 h-12 rounded-lg flex justify-between items-center px-4">
+                <img src="../static/game_assets/game_images/start.svg" id="startButton"
+                    class="control-button w-9 h-6 cursor-pointer">
+                <div id="watch" class="text-white text-xl" style="font-family: Oxygen Mono, monospace;">00 : 00 : 00
+                </div>
+                <img src="../static/game_assets/game_images/pause.svg" id="pauseButton"
+                    class="control-button w-9 h-6 cursor-pointer">
+            </div>
+        </div>
+
+        <!-- help and exit Buttons-->
+        <div class="flex justify-between mp-2">
+            <!-- Help Button -->
+            <div class="flex items-center">
+                <img src="../static/game_assets/game_images/help.svg" id="HelpButton"
+                    class="w-20 h-16 cursor-pointer hover:opacity-70">
+            </div>
+
+            <!-- Exit Button -->
+            <div class="flex items-center">
+                <img src="../static/game_assets/game_images/exit.svg" id="ExitButton"
+                    class="w-20 h-16 cursor-pointer hover:opacity-70">
+            </div>
+        </div>
+    </div>
+
+    <!-- help message container -->
+    <div id="msgerr" class="hidden absolute w-1/2 h-[60vh] md:w-[40rem] md:h-[20rem] justify-center items-center top-[40%] left-[45%] transform -translate-x-1/2 -translate-y-1/2 rounded-2xl">
+        <img src="../static/game_assets/game_images/helpbutton.png" alt="Description of the image" class="w-[100%] md:min-w-[40rem] h-auto object-cover rounded-2xl">
+    </div>
+
+    <!-- error Message -->
+    <div id="errorMessage" class="relative bg-red-500 rounded-lg p-3 w-[25rem] mx-auto"
+        style="margin-top: 1%; display: none;">
+        <img src="../static/game_assets/game_images/error_icon.svg" alt="Harba Icon"
+            class="absolute top-[9px] left-1 w-8 h-6">
+        <div id="errorMessageText" class="ml-8 font-medium text-white text-sm"></div>
+    </div>
+
+    <!-- congratulations game -->
+    <div id="congratulationsContainer"
+        class="absolute bg-[#5a4c6a36] w-80 h-[28rem] flex flex-col justify-between items-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-2xl">
+        <img id="goldenCup" src="../static/game_assets/game_images/GoldenCup.svg" class="w-80 h-32 mt-7 hidden">
+        <img id="silverCup" src="../static/game_assets/game_images/SilverCup.svg" class="w-80 h-32 mt-7 hidden">
+        <img id="bronzeCup" src="../static/game_assets/game_images/BronzeCup.svg" class="w-80 h-32 mt-7 hidden">
+
+        <div class="congratulationsContainer flex flex-col items-center justify-center h-[55%]">
+            <div class="relative">
+                <img src="../static/game_assets/game_images/ElapsedTime.svg" class="w-[16rem] h-16 ">
+                <p id="elapsedTimeText"
+                    class="absolute ml-[-0.25rem] mt-[0.2rem] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#706674] hidden"
+                    style="font-family: Moul, serif;">Elapsed Time: </p>
+            </div>
+
+            <div class="relative">
+                <img src="../static/game_assets/game_images/Score.svg" class="w-[16rem] h-16">
+                <p id="scoreText"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#706674] hidden"
+                    style="font-family: Moul, serif;">Score: </p>
+            </div>
+
+            <div class="relative">
+                <img src="../static/game_assets/game_images/Moves.svg" class="w-[16rem] h-16">
+                <p id="movesText"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#706674] hidden"
+                    style="font-family: Moul, serif;">Moves: </p>
+            </div>
+        </div>
+
+        <div class="buttons flex justify-around">
+            <button id="exitGameBtn"
+                class="bg-[#6E00FF] text-white rounded-full py-2 px-4 text-xs font-bold font-serif hover:ring-4 hover:ring-[#5706c06d]"
+                style="font-family: Moul, serif;">Exit Game</button>
+            <button id="continueBtn"
+                class="bg-[#6E00FF] text-white rounded-full py-2 px-4 text-xs font-bold font-serif hover:ring-4 hover:ring-[#5706c06d]"
+                style="font-family: Moul, serif;">Continue</button>
+        </div>
+    </div>
+
+    <!-- GIF for Mobile Users -->
+    <img id="mobileGif" src="../static/game_assets/game_images/rotate-phone.gif" alt="Turning Phone GIF" class="fixed top-0 left-0 w-full h-full object-cover z-[1000000]" style="display:none;">
+
+</body>
+
+</html>
