@@ -206,7 +206,7 @@ The mobile orientation reminder is an intuitive feature integrated into the game
 
 Enhance your experience with a playful touch! As you navigate away from **ASMOUAL JIGSAW**, a friendly reminder beckons you back to continue your puzzle-solving adventure.
 <div align="center">
-  <img src="https://github.com/OUALIID/Asmoual_Jigsaw_Puzzle/assets/96590775/5c00f270-dff9-4e97-bf1e-3b1f3a34d67e"  width="750px" >
+  
 
 
 ## Conclusion
