@@ -18,7 +18,6 @@ export default async function generateJigsaw(imageSource, boardCols, boardWidthP
   await image.decode().catch((error) => {
     alert(`Error loading image: ${error.message}`);
   });
-
   const imageAspectRatio = image.naturalWidth / image.naturalHeight;
   const numColumns = parseInt(boardCols);
   const numRows = Math.round(numColumns / imageAspectRatio);
