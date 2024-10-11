@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", function() {
   
     window.addEventListener("orientationchange", handleScreenChange);
     window.addEventListener("resize", handleScreenChange);
-  
-    handleScreenChange(); // Initial check
+      handleScreenChange(); // Initial check
   });
   
