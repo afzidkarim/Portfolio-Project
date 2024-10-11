@@ -6,7 +6,6 @@ function createPuzzleData(boardWidth, boardHeight, numColumns, numRows, pieceWid
     };
   }
 /* -------------------------------------Add generateJigsaw function to create jigsaw puzzle from image------------------------ */
-
 export default async function generateJigsaw(imageSource, boardCols, boardWidthPx) {
   // creating a new empty image box.
   const image = new Image();
