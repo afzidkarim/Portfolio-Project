@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     var mobileGif = document.getElementById("mobileGif");
-  
-    function toggleGif(display) {
+      function toggleGif(display) {
         mobileGif.style.display = display ? "block" : "none";
     }
   
